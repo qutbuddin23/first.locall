@@ -130,9 +130,14 @@ https://templatemo.com/tm-534-parallo
                 You may browse <a rel="nofollow" href="https://www.toocss.com">Too CSS</a> website for the collection of CSS templates for your projects. Aliquam erat volutpat. Nulla eros est,
                 imperdiet vel feugiat non, ullamcorper mattis nulla.
               </p>
-              <form action="#" method="get" class="tm-call-to-action-form">                
-                <input name="email" type="email" class="tm-email-input" id="email" placeholder="Email" />
-                <button type="submit" class="btn btn-secondary">Get Updates</button>
+              <?php
+                if(isset($_GET['errors']) && $_GET['errors'] == 'invalid_email') {
+                  echo '<script type="text/javascript"> alert("The Email seems to be invalid!")</script>';
+                }
+              ?>
+              <form action="actions/save_email.php" method="post" class="tm-call-to-action-form">                
+                <input name="email_id" type="text" class="tm-email-input" id="email" placeholder="Email" />
+                <button type="submit" class="btn btn-secondary" id="get_updates">Get Updates</button>
               </form>
             </div>
           </div>
@@ -152,5 +157,25 @@ https://templatemo.com/tm-534-parallo
     <script src="js/jquery.min.js"></script>
     <script src="js/parallax.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+
+        $('#get_updates').click(function(e) {
+          var emailField = $('#email').val();
+
+          if(emailField == "" || emailField.length < 0) {
+            e.preventDefault();
+            alert("Please enter valid email!");
+          }
+
+          var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+          if(! emailReg.test( emailField )) {
+            e.preventDefault();
+            alert("Please Enter Valid Email in correct format!");
+          }
+        });
+      });
+    </script>
   </body>
 </html>
